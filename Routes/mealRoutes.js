@@ -1,17 +1,18 @@
 import express from 'express';
 import mealController from '../Controllers/mealController';
+import authController from './../Controllers/authenticationController';
 
 const router = express.Router();
 
 router
     .route("/")
-    .get(mealController.getAllMeals)
+    .get(authController.protect, mealController.getAllMeals)
     .post(mealController.createMeal);
 
 router
     .route("/:id")
     .get(mealController.getOneMeal)
     .patch(mealController.updateMeal)
-    .delete(mealController.deleteMeal);
+    .delete(authController.protect,authController.restrictTo("admin"),mealController.deleteMeal);
     
 export default router;
