@@ -52,15 +52,15 @@ userSchema.pre("save", async function(next){
     
 });
 
-userSchema.pre("save", async function(next){
+// userSchema.pre("save", async function(next){
 
-    if(!this.isModified("password") || this.isNew ){ next(); }
+//     if(!this.isModified("password") || this.isNew ){ next(); }
 
-    this.passwordChangedAt = Date.now();
+//     this.passwordChangedAt = Date.now();
 
-    next();  
+//     next();  
     
-});
+// });
 
 userSchema.methods.correctPassword = async function(candidatePassword,userPassword){
     return await bcrypt.compare(candidatePassword,userPassword);

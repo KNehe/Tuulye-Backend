@@ -17,19 +17,26 @@ const signUp = CatchAsync(async (req,res,next)=>{
     const newUser = await User.create({
         name: req.body.name,
         email:req.body.email,
-        phoneNumber:req.body.phoneNumber,
+        phoneNumber:req.body.phone,
         password:req.body.password,
-        gender:req.body.gender,
-        passwordChangedAt:req.body.passwordChangedAt
+        gender:req.body.gender
     });
     
     const token = signToken(newUser._id);
+     
+    //remove the password from response
+    const user = {
+        name:newUser.name,
+        email:newUser.email,
+        phoneNumber:newUser.phoneNumber,
+        gender:newUser.gender
+    }
 
     res.status(200).json({
         status:"success",
         token,
         data:{
-            user:newUser
+            user
         }
     });
 

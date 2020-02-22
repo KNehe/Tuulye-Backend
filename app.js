@@ -5,6 +5,8 @@ import mealRoutes from './Routes/mealRoutes';
 import globalErrorHandler from './Controllers/errorController';
 import AppError from './Utils/appError';
 import userRoutes from "./Routes/userRoutes";
+import User from "./Models/userModel";
+import cors from 'cors';
 
 dotenv.config({path:'./config.env'});
 
@@ -16,6 +18,7 @@ if(process.env.NODE_ENV === "development"){
     app.use(morgan('dev'));
 }
 
+app.use(cors());
 app.use("/api/v1/meals",mealRoutes);
 app.use("/api/v1/users",userRoutes);
 
