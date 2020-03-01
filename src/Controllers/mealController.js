@@ -1,6 +1,7 @@
 import Meal from '../Models/mealModel';
 import CatchAsync from '../Utils/catchAsync';
 import AppError from '../Utils/appError';
+import Purchase from './../Models/purchaseModel';
 
 const createMeal =  CatchAsync(async (req,res,next) =>{
     
@@ -78,5 +79,26 @@ const deleteMeal =  CatchAsync(async(req,res,next) =>{
     });
 });
 
+const payBill = CatchAsync(async(req,res,next)=>{
+    
+    if(!req.body.pin || !req.body.phone || req.network)
+    {
+        return next(new AppError('All credentials are required',400));
+    }
+    
+    const purchase = Purchase.create({
+        network:req.body.network,
+        pin:req.body.pin,
+        phone:req.body.phone,
+        purchasedBy: req.user._id
+    });
 
-export default {createMeal,getAllMeals,deleteMeal,updateMeal,getOneMeal};
+    res.status(200).json({
+        status:'success',
+        message:'Payment successfull',
+        data:{purchase}
+    });
+});
+
+
+export default {createMeal,getAllMeals,deleteMeal,updateMeal,getOneMeal,payBill};

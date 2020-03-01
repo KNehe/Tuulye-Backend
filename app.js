@@ -1,11 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import mealRoutes from './Routes/mealRoutes';
-import globalErrorHandler from './Controllers/errorController';
-import AppError from './Utils/appError';
-import userRoutes from "./Routes/userRoutes";
-import User from "./Models/userModel";
+import mealRoutes from './src/Routes/mealRoutes';
+import globalErrorHandler from './src/Controllers/errorController';
+import AppError from './src/Utils/appError';
+import userRoutes from "./src/Routes/userRoutes";
+import User from "./src/Models/userModel";
 import cors from 'cors';
 
 dotenv.config({path:'./config.env'});
