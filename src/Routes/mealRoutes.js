@@ -17,5 +17,7 @@ router
     .get(mealController.getOneMeal)
     .patch(mealController.updateMeal)
     .delete(authController.protect,authController.restrictTo("admin"),mealController.deleteMeal);
+
+
     
 export default router;

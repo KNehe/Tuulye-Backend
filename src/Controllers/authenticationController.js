@@ -29,7 +29,8 @@ const signUp = CatchAsync(async (req,res,next)=>{
         name:newUser.name,
         email:newUser.email,
         phoneNumber:newUser.phoneNumber,
-        gender:newUser.gender
+        gender:newUser.gender,
+        role:newUser.role
     }
 
     res.status(200).json({
@@ -76,6 +77,7 @@ const protect = CatchAsync( async(req,res,next) =>{
 
     //check if token exists
     let token;
+    
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
         token = req.headers.authorization.split(' ')[1];   
     }
