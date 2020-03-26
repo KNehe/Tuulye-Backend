@@ -7,6 +7,7 @@ import AppError from './src/Utils/appError';
 import userRoutes from "./src/Routes/userRoutes";
 import cors from 'cors';
 import statisticsRoutes from './src/Routes/statisticsRoutes';
+import searchRoutes from './src/Routes/searchRoutes';
 
 dotenv.config({path:'./config.env'});
 
@@ -22,6 +23,7 @@ app.use(cors());
 app.use("/api/v1/meals",mealRoutes);
 app.use("/api/v1/users",userRoutes);
 app.use("/api/v1/statistics",statisticsRoutes);
+app.use("/api/v1/search", searchRoutes);
 
 app.all("*",(req,res,next)=>{
     next( new AppError(`Can't find ${req.originalUrl} on this server`,404));
