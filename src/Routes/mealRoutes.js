@@ -9,8 +9,11 @@ router
     
 router
     .route("/")
-    .get(authController.protect, mealController.getAllMeals)
     .post(mealController.createMeal)
+
+router
+     .route("/:size/:page")
+     .get(authController.protect, mealController.getAllMeals);
 
 router
     .route("/:id")

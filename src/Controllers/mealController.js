@@ -5,7 +5,11 @@ import Purchase from './../Models/purchaseModel';
 
 const createMeal =  CatchAsync(async (req,res,next) =>{
     
-    const newMeal = await Meal.create(req.body);
+    const newMeal = await Meal.create({
+        name: req.body.name,
+        price:req.body.price,
+        image:req.body.image
+    });
 
     res.status(200).json({
         status:"success",
@@ -19,13 +23,31 @@ const createMeal =  CatchAsync(async (req,res,next) =>{
 
 const getAllMeals =  CatchAsync(async(req,res,next) =>{
 
-    const meals = await Meal.find();
+    if(!req.params.size || !req.params.page){
+        return next(new AppError('Size and page required',500));
+    }
+
+    const size = parseInt(req.params.size);
+    const pageNo = parseInt(req.params.page || 1);
+
+    if(pageNo < 0 || pageNo === 0){
+        return res.json({'error':true, 'message':'Invalid page number'});
+    }
+
+    const meals = await Meal.find()
+                        .skip( (pageNo - 1) * size)
+                        .limit(size);
+
+    const totalNumberOfRecords = await Meal.find().countDocuments();
 
     res.status(200).json({
         status:"success",
         results:meals.length,
         data:{
-            meals
+            meals,
+            currentPage : pageNo,
+            pages: Math.ceil(totalNumberOfRecords / size)
+            
         }
     });
 });
