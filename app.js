@@ -13,6 +13,8 @@ dotenv.config({path:'./config.env'});
 
 const app = express();
 
+
+
 app.use(express.json());
 
 if(process.env.NODE_ENV === "development"){
@@ -20,6 +22,7 @@ if(process.env.NODE_ENV === "development"){
 }
 
 app.use(cors());
+
 app.use("/api/v1/meals",mealRoutes);
 app.use("/api/v1/users",userRoutes);
 app.use("/api/v1/statistics",statisticsRoutes);

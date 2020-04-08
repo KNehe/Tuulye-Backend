@@ -12,17 +12,37 @@ dotenv.config({path:'./config.env'});
 import app from './app';
 
 
-const DB  = process.env.DATABASE_LOCAL;
 
-mongoose.connect(DB,{
-    useNewUrlParser:true,
-    useCreateIndex:true,
-    useFindAndModify:false,
-    useUnifiedTopology:true
-})
-.then(()=>{
-    console.log("DB Connection successfull...");
-});
+
+    // const DB  = process.env.DATABASE_ONLINE;
+
+    // mongoose.connect(DB,{
+    //     useNewUrlParser:true,
+    //     useCreateIndex:true,
+    //     useFindAndModify:false,
+    //     useUnifiedTopology:true
+    // })
+    // .then(()=>{
+    //     console.log("DB Connection successfull for prod...");
+    // });
+
+
+
+
+    const DB  = process.env.DATABASE_LOCAL;
+
+    mongoose.connect(DB,{
+        useNewUrlParser:true,
+        useCreateIndex:true,
+        useFindAndModify:false,
+        useUnifiedTopology:true
+    })
+    .then(()=>{
+        console.log("DB Connection successfull for dev...");
+    });
+
+
+
 
 
 const port = process.env.PORT || 3000;
@@ -32,7 +52,7 @@ const server = app.listen(port,()=>{
 });
 
 process.on("unhandledRejection", err=>{
-    console.log("UnhandledRejection Shutting down ...");
+    console.log("UnhandledRejection Shutting down ...", err);
     server.close(()=>{
         process.exit(1);
     });
