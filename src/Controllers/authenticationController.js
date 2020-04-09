@@ -117,43 +117,43 @@ const restrictTo = (...roles) =>{
     };
 };
 
-const fogotPassword = CatchAsync( async(req,res,next)=>{
-    //get used based on posted email
+// const fogotPassword = CatchAsync( async(req,res,next)=>{
+//     //get used based on posted email
     
-    const user = await User.findOne({ email: req.body.email});
-    if(!user){
-        return next(new AppError("No user with that email", 404));
-    }
-    //generate random reset token
-    const resetToken = user.createPasswordResetToken();
-    await user.save({ validateBeforeSave:false});
+//     const user = await User.findOne({ email: req.body.email});
+//     if(!user){
+//         return next(new AppError("No user with that email", 404));
+//     }
+//     //generate random reset token
+//     const resetToken = user.createPasswordResetToken();
+//     await user.save({ validateBeforeSave:false});
 
-    //send it to user's email
-    const resetUrl = `${req.protocol}://${req.get('host')}//api/v1/users/resetPassword/${resetToken}`;
+//     //send it to user's email
+//     const resetUrl = `${req.protocol}://${req.get('host')}//api/v1/users/resetPassword/${resetToken}`;
 
-    const message =    `Forgot your password? Submit a patch request qith your new password to ${resetUrl} \n 
-    If you dint forget password please ignore this email`;
+//     const message =    `Forgot your password? Submit a patch request qith your new password to ${resetUrl} \n 
+//     If you dint forget password please ignore this email`;
 
-    try{await sendEmail({
-        email:user.email,
-        subject:'Your password reset token(Valid for 10 mins)',
-        message
-    });
+//     try{await sendEmail({
+//         email:user.email,
+//         subject:'Your password reset token(Valid for 10 mins)',
+//         message
+//     });
 
-    res.status(200).json({
-        status:"success",
-        message:"Token sent to email"
-    });
-   }catch(err)
-   {
-       user.passwordResetToken = undefined;
-       user.passwordResetExpires = undefined;
-       await user.save({ validateBeforeSave:false});
+//     res.status(200).json({
+//         status:"success",
+//         message:"Token sent to email"
+//     });
+//    }catch(err)
+//    {
+//        user.passwordResetToken = undefined;
+//        user.passwordResetExpires = undefined;
+//        await user.save({ validateBeforeSave:false});
 
-       return new AppError("There was an error sending the email",500);
-   }
+//        return new AppError("There was an error sending the email",500);
+//    }
 
-});
+// });
 
 const resetPassword = CatchAsync( async (req,res,next)=>{
 
@@ -185,12 +185,16 @@ const resetPassword = CatchAsync( async (req,res,next)=>{
 });
 
 const sendMessage = CatchAsync( async (req,res,next)=>{
+    
+    if(!req.body.email || !req.body.message){
+        return next( new AppError('Email or Message are missing', 500));
+    }
+    
+    await sendEmail(req.body.email,req.body.message);
 
-    console.log(req.body );
-
-    res.status(200).json('We have rece ived your message');
+    res.status(200).json('We have received your message');
 });
 
-export default {signUp,logIn,protect,restrictTo,fogotPassword,resetPassword,sendMessage};
+export default {signUp,logIn,protect,restrictTo,resetPassword,sendMessage};
 
 
