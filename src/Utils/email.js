@@ -1,15 +1,12 @@
 "use strict";
 const nodemailer = require("nodemailer");
 import dotenv from 'dotenv';
+import catchAsync from './catchAsync';
 dotenv.config({path:'./config.env'});
 
 
 // async..await is not allowed in global scope, must use a wrapper
-async function sendEMail(senderEmail,senderMessage) {
-
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  let testAccount = await nodemailer.createTestAccount();
+const sendEMail = catchAsync(async (senderEmail,senderMessage) => {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
@@ -29,14 +26,17 @@ async function sendEMail(senderEmail,senderMessage) {
     html: `<b>${senderMessage}</b>` // html body
   });
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  transporter.sendMail(info)
+    .then(function(response){
+      console.log('Email sent')
+    })
+    .catch( function(error){
+      console.log('Email error',error);
+      return error;
+    })
 
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-}
+});
 
-sendEMail().catch(console.error);
+
 
 export default sendEMail;
