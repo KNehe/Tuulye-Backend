@@ -4,7 +4,7 @@
   "description": "\"Tuulye REST API\"",
   "main": "\"server.js\"",
   "scripts": {
-    "test": "nodemon --exec mocha --require @babel/register 'Tests/**/**spec.js'",
+    "test": "nodemon --exec mocha --require @babel/register './src/Tests/**/**spec.js'",
     "test:watch": "jest --watch",
     "start": "babel-node server.js ",
     "start:nodemon": "nodemon --exec babel-node server.js ",
@@ -19,6 +19,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
     "@babel/register": "^7.8.3",
+    "babel-jest": "^25.3.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -26,7 +27,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.1",
     "morgan": "^1.9.1",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.6",
+    "sinon": "^9.0.2",
     "validator": "^12.2.0"
   },
   "devDependencies": {

@@ -52,16 +52,6 @@ userSchema.pre("save", async function(next){
     
 });
 
-// userSchema.pre("save", async function(next){
-
-//     if(!this.isModified("password") || this.isNew ){ next(); }
-
-//     this.passwordChangedAt = Date.now();
-
-//     next();  
-    
-// });
-
 userSchema.methods.correctPassword = async function(candidatePassword,userPassword){
     return await bcrypt.compare(candidatePassword,userPassword);
 }
@@ -78,12 +68,12 @@ userSchema.methods.changedPasswordAfter = async function(JWTTimestamp){
 userSchema.methods.createPasswordResetToken = function(){
   const resetToken = crypto.randomBytes(32).toString('hex');
 
-  this.passwordResetToken = crypto
-  .createHash('sha256')
-  .update(resetToken)
-  .digest('hex');
+  this.passwordResetToken = resetToken;
   
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+//   this.passwordResetToken = crypto
+//   .createHash('sha256')
+//   .update(resetToken)
+//   .digest('hex');
 
   return resetToken;
 };
