@@ -3,7 +3,7 @@ import CatchAsync from '../Utils/catchAsync';
 
 const searchMeal = CatchAsync(async (req,res,next)=>{
     
-    const result = await Meal.find({name: req.body.name});
+    const result = await Meal.find({name: { $regex: req.body.name , $options:'i'} });
     
     if(result.length == 0){
 
