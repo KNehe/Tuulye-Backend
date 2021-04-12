@@ -14,22 +14,7 @@ import app from './app';
 
 
 
-    // const DB  = process.env.DATABASE_ONLINE;
-
-    // mongoose.connect(DB,{
-    //     useNewUrlParser:true,
-    //     useCreateIndex:true,
-    //     useFindAndModify:false,
-    //     useUnifiedTopology:true
-    // })
-    // .then(()=>{
-    //     console.log("DB Connection successfull for prod...");
-    // });
-
-
-
-
-    const DB  = process.env.DATABASE_LOCAL;
+    const DB  = process.env.DATABASE_ONLINE;
 
     mongoose.connect(DB,{
         useNewUrlParser:true,
@@ -38,8 +23,23 @@ import app from './app';
         useUnifiedTopology:true
     })
     .then(()=>{
-        console.log("DB Connection successfull for dev...");
+        console.log("DB Connection successfull...");
     });
+
+
+
+
+    // const DB  = process.env.DATABASE_LOCAL;
+
+    // mongoose.connect(DB,{
+    //     useNewUrlParser:true,
+    //     useCreateIndex:true,
+    //     useFindAndModify:false,
+    //     useUnifiedTopology:true
+    // })
+    // .then(()=>{
+    //     console.log("DB Connection successfull for dev...");
+    // });
 
 
 
